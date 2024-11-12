@@ -11,11 +11,25 @@
 **Fildtrip Tutorial 网址**：https://www.fieldtriptoolbox.org/tutorial/human_ecog/
 
 **使用工具**：
-1. matlab
-2. freesurfer
-3. matlab toolbox:
-    * fieldtrip
 
+1. matlab
+2. freesurfer: https://surfer.nmr.mgh.harvard.edu/fswiki/DownloadAndInstall
+3. matlab toolbox:
+   * fieldtrip: https://www.fieldtriptoolbox.org/download/
+4. mricron: https://www.nitrc.org/projects/mricron 
+
+<br/>
+- [iEEG颅内数据预处理](#ieeg颅内数据预处理)
+  - [1.如何在拿到原始数据后迅速检查](#1如何在拿到原始数据后迅速检查)
+    - [1.1 颅内电记录检查(Trigger检查)](#11-颅内电记录检查trigger检查)
+    - [1.2 结构像检查](#12-结构像检查)
+  - [2.预处理：结构像预处理与电极定位](#2预处理结构像预处理与电极定位)
+    - [2.0 将MRI-T1配准到acpc空间](#20-将mri-t1配准到acpc空间)
+    - [2.1 使用freesurfer对MRI T1进行预处理](#21-使用freesurfer对mri-t1进行预处理)
+    - [2.2 结构像其他预处理(更新中)](#22-结构像其他预处理更新中)
+    - [2.3 电极点定位:brainstorm版(更新中)](#23-电极点定位brainstorm版更新中)
+
+<br/>
 
 ## 1.如何在拿到原始数据后迅速检查
 
@@ -29,70 +43,60 @@
 4. 行为结果记录
 <br/>
 
-
 ### 1.1 颅内电记录检查(Trigger检查)
-> 根据个人需求，可能需要检查 Trigger数量、顺序、间隔时间是否如预期：
+* 根据个人需求，可能需要检查 Trigger数量、顺序、间隔时间是否如预期：
 
 
-> **Tools**: 
-> * matlab with fieldtrip
-> 
-> **Input**:  
-> * 原始数据(.edf)
-> 
-> **Output**:
-> * tables & figures  when running ***maker_check_sample.m***(not saved)
+> **Tools**:  matlab with fieldtrip<br/>
+> **Input**:   原始数据(.edf)<br/>
+> **Output**: tables & figures  when running ***maker_check_sample.m***(not saved)
 
-参考脚本（用于检查数量、顺序、间隔时间）
+参考脚本（用于检查数量、顺序、间隔时间）:
 
     maker_check_sample.m % samle to check marker 
     marker_Bi2Dec.m % function to generate marker from raw ieeg data
 
 ### 1.2 结构像检查
-> 建议下一个**mricron**（可视化看图小工具软件: https://www.nitrc.org/projects/mricron ），主要用于检查MRI T1/CT图像是否**完整、清晰**；如果存在异常，及时与医生联系，索要清晰的图像！
+*  下一个**mricron**（可视化看图小工具软件: https://www.nitrc.org/projects/mricron ），主要用于检查MRI T1/CT图像是否**完整、清晰**；如果存在异常，及时与医生联系，索要清晰的图像！
 
-> **建议**把文件夹里面的很多层图像合并到一个nii里面方便后续操作
+* 把文件夹里面的很多层图像合并到一个nii里面方便后续操作
 
-①下载好的mricron文件夹里有一个这个软件**dcm2niigui.exe**：
-![alt text](https://github.com/xiangshuwu/iEEG_preprocess/tree/main/figures/image3.png)
+① 下载好的mricron文件夹里有一个这个软件**dcm2niigui.exe**：
+
+
+![alt text](./figures/image3.png)
  
-②打开长这样，注意选择**output format**为 **[FSL/SPM8(4D NIfTI nii)]**：
-![alt text](https://github.com/xiangshuwu/iEEG_preprocess/tree/main/figures/image4.png)
+② 打开长这样，注意选择**output format**为 **[FSL/SPM8(4D NIfTI nii)]**：
+<img src = "./figures/image4.png" style="zoom: 65%;">
 
-③把相关文件夹（MRI/CT）拖进去，会自动把每一层扫描像合并成一个.nii图像，存回**原来的文件夹**里
+③ 把相关文件夹（MRI/CT）拖进去，会自动把每一层扫描像合并成一个.nii图像，存回**原来的文件夹**里
 做完这步一般会生成：
-*  xxxxx.nii ：用mricron打开打开就能看了
+*  xxxxx.nii ：**用mricron打开**就能看了
 * xxxxx.json ：格式和参数记录
 
 
-> 如何辨认哪些是MRI-T1像，哪些是post_CT像?
-* MRI T1长如图最左边这样
-![alt text](https://github.com/xiangshuwu/iEEG_preprocess/tree/main/figures/image1.png)
+> * MRI T1长如图最左边这样
+> <img src = "./figures/image1.png" style="zoom: 65%;">
+> * post_CT长这样
+> <img src = "./figures/image2.png" style="zoom: 47%;">
 
-* post_CT长这样
-![alt text](https://github.com/xiangshuwu/iEEG_preprocess/tree/main/figures/image2.png)
+
 
 
 ## 2.预处理：结构像预处理与电极定位
 
-## 2.0 将MRI-T1配准到acpc空间
-因为要对齐MRI和CT像，所以要把这两种图片都对齐到acpc坐标系；
+### 2.0 将MRI-T1配准到acpc空间
+* 因为要对齐MRI和CT像，所以要把这两种图片都对齐到acpc坐标系；
 
-这里单独说是可以先做这一步，然后把**耗时间的MRI预处理**跑上。
+* 可以先做这一步，然后把**耗时间的MRI预处理**跑上。
 
-> **Tools**: 
-> * matlab with fieldtrip
-> 
-> **Input**:  
-> * MRI-T1
-> 
-> **Output**: 
-> * Subjectx_MR_acpc.nii
 
-<br/>
+
+> **Tools**:  matlab with fieldtrip <br/>
+> **Input**:   MRI-T1 <br/>
+> **Output**:  Subjectx_MR_acpc.nii
 
 参考视频： [Supplementary Video 2](https://static-content.springer.com/esm/art%3A10.1038%2Fs41596-018-0009-6/MediaObjects/41596_2018_9_MOESM7_ESM.mp4)
-
     
     mri = ft_read_mri(<path to MRI file>);
     cfg = []; cfg.method = 'interactive'; 
@@ -107,27 +111,21 @@
     ft_volumewrite(cfg, mri_acpc);
 
 
-## 2.1 使用freesurfer对MRI T1进行预处理 
+### 2.1 使用freesurfer对MRI T1进行预处理 
 > 注意：
 > 1. 预处理MRI T1结构像需要时间 **~ 12h/人 建议在服务器上跑！**
 > 2. freesurfer是基于**linux**系统的，只能在linux系统上使用
 
 
-> **Tools**: 
-> * freesurfer(Linux)
-> 
-> **Input**:  
-> * Subjectx_MR_acpc.nii
-> 
-> **Output**: 
-> * 预处理好的文件夹（可以以被试名字命名）一般包含
-![alt text](.\figures\image.png)
+> **Tools**: freesurfer(Linux) <br/>
+> **Input**:  Subjectx_MR_acpc.nii <br/>
+> **Output**:  预处理好的文件夹（可以以被试名字命名）一般包含
+>  <img src = "./figures/image.png" style="zoom: 75%;">
 
 
+① 连接linux服务器（SZU服务器已安装freesufer，如果在别的linux设备上跑，请提前安装： https://surfer.nmr.mgh.harvard.edu/fswiki/DownloadAndInstall）
 
-①连接linux服务器（SZU服务器已安装freesufer，如果在别的linux设备上跑，请提前安装： https://surfer.nmr.mgh.harvard.edu/fswiki/DownloadAndInstall）
-
-②打开**终端**
+② 打开**终端**
 
 - 使用前配置
 
@@ -139,19 +137,20 @@
 
         $ recon-all -s subject1 -i /path/to/input_image.nii -all #预处理开始
 
-* **-s subject_id**: 定义一个特定的 subject ID，用来标识输出文件夹的名称。例如，在 -s subject1 中，subject1 将是生成数据的目录名称，位于 $SUBJECTS_DIR/subject1 路径下。
+* **-s subject_id**: 定义一个subject_id，用来标识**输出文件夹**的名称。例如，在 -s subject1 中，subject1 将是生成数据的目录名称，位于 **$SUBJECTS_DIR/subject1**路径下。
 
-* **-i input_image** :  指定输入影像文件的路径（MRI T1）。例如，-i /path/to/input_image.nii 表示使用 input_image.nii 作为输入。
+* **-i input_image** :  指定**输入文件**的路径（MRI T1）。例如，-i /path/to/input_image.nii 表示使用 input_image.nii 作为输入。
 
 * **-all**: 执行 recon-all 所有的处理步骤，包括 skull strip、白质分割、皮层表面生成等。-all 参数非常方便，因为它会自动依次执行所有步骤，生成最终结果。
 
-## 2.2 结构像其他预处理(更新中...) 
+### 2.2 结构像其他预处理(更新中) 
 
 
-## 2.3 电极点定位:brainstorm版(更新中...) 
-> Protocols文章直接用的是fieldtrip定位，也可以的。区别在于：
-> * fieldtrip: 手动定位每一个contacts
-> * brainstorm: 手动定位的是电极那条直线，确定起点根据contacts间距计算每个contacts位置
+### 2.3 电极点定位:brainstorm版(更新中) 
+Protocols文章直接用的是fieldtrip定位，也可以的。区别在于：
+* fieldtrip: 手动定位每一个contacts
+ * brainstorm: 手动定位的是电极那条直线，确定起点根据contacts间距计算每个contacts位置
+
 
 > 需要的材料:
 > * 被试详细电极位置记录
