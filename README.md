@@ -19,6 +19,11 @@
 4. mricron: https://www.nitrc.org/projects/mricron 
 
 <br/>
+
+**目录**：
+<br/>
+
+
 - [iEEG颅内数据预处理](#ieeg颅内数据预处理)
   - [1.如何在拿到原始数据后迅速检查](#1如何在拿到原始数据后迅速检查)
     - [1.1 颅内电记录检查(Trigger检查)](#11-颅内电记录检查trigger检查)
@@ -64,10 +69,10 @@
 ① 下载好的mricron文件夹里有一个这个软件**dcm2niigui.exe**：
 
 
-![alt text](./figures/image3.png)
+<img src = "./figures/image3.png" style="zoom: 80%;">
  
 ② 打开长这样，注意选择**output format**为 **[FSL/SPM8(4D NIfTI nii)]**：
-<img src = "./figures/image4.png" style="zoom: 65%;">
+<img src = "./figures/image4.png" style="zoom: 60%;">
 
 ③ 把相关文件夹（MRI/CT）拖进去，会自动把每一层扫描像合并成一个.nii图像，存回**原来的文件夹**里
 做完这步一般会生成：
@@ -76,9 +81,12 @@
 
 
 > * MRI T1长如图最左边这样
-> <img src = "./figures/image1.png" style="zoom: 65%;">
+> 
+> <img src = "./figures/image1.png" style="zoom: 60%;">
+> 
 > * post_CT长这样
-> <img src = "./figures/image2.png" style="zoom: 47%;">
+> 
+> <img src = "./figures/image2.png" style="zoom: 40%;">
 
 
 
@@ -112,9 +120,11 @@
 
 
 ### 2.1 使用freesurfer对MRI T1进行预处理 
-> 注意：
-> 1. 预处理MRI T1结构像需要时间 **~ 12h/人 建议在服务器上跑！**
-> 2. freesurfer是基于**linux**系统的，只能在linux系统上使用
+注意：
+* 预处理MRI T1结构像需要时间 **~ 12h/人 建议在服务器上跑！**
+* freesurfer是基于**linux**系统的，只能在linux系统上使用
+
+
 
 
 > **Tools**: freesurfer(Linux) <br/>
@@ -123,7 +133,7 @@
 >  <img src = "./figures/image.png" style="zoom: 75%;">
 
 
-① 连接linux服务器（SZU服务器已安装freesufer，如果在别的linux设备上跑，请提前安装： https://surfer.nmr.mgh.harvard.edu/fswiki/DownloadAndInstall）
+① 连接linux服务器（SZU服务器已安装freesufer，如果在别的linux设备上跑，请提前安装：https://surfer.nmr.mgh.harvard.edu/fswiki/DownloadAndInstall）
 
 ② 打开**终端**
 
@@ -154,7 +164,7 @@ Protocols文章直接用的是fieldtrip定位，也可以的。区别在于：
 
 > 需要的材料:
 > * 被试详细电极位置记录
-> * 原始数据.edf（用于读取contacts label）
+> * 原始数据.edf（用于读取channel label）
 > * freesurfer预处理处理好的**MRI-T1**文件夹
 > * **post_CT_acpc**（_acpc指的是两种图像都已经转换到acpc坐标系了）
 
