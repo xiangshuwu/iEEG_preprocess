@@ -69,10 +69,10 @@
 ① 下载好的mricron文件夹里有一个这个软件**dcm2niigui.exe**：
 
 
-<img src = "./figures/image3.png" style="zoom: 80%;">
+<img src = "./figures/image3.png" style="zoom: 65%;">
  
 ② 打开长这样，注意选择**output format**为 **[FSL/SPM8(4D NIfTI nii)]**：
-<img src = "./figures/image4.png" style="zoom: 60%;">
+<img src = "./figures/image4.png" style="zoom: 65%;">
 
 ③ 把相关文件夹（MRI/CT）拖进去，会自动把每一层扫描像合并成一个.nii图像，存回**原来的文件夹**里
 做完这步一般会生成：
@@ -82,7 +82,7 @@
 
 > * MRI T1长如图最左边这样
 > 
-> <img src = "./figures/image1.png" style="zoom: 60%;">
+> <img src = "./figures/image1.png" style="zoom: 65%;">
 > 
 > * post_CT长这样
 > 
@@ -137,12 +137,13 @@
 
 ② 打开**终端**
 
-- 使用前配置
+- 使用前配置(freesufer文件位置，输出文件位置)
 
         $ export SUBJECTS_DIR=/opt/fox_cloud/share/app/imaging/freesurfer/7.3.2-1 # <path to freesurfer directory> 
         $ export SUBJECTS_DIR=/home/your_name/fs_image # <path to subject directory: output file>
-
-        $ source $FREESURFER HOME/SetUpFreeSurfer.sh  # 使上面的参数生效
+- 使上面的参数生效
+  
+        $ source $FREESURFER HOME/SetUpFreeSurfer.sh  
 - 运行预处理
 
         $ recon-all -s subject1 -i /path/to/input_image.nii -all #预处理开始
@@ -166,7 +167,7 @@ Protocols文章直接用的是fieldtrip定位，也可以的。区别在于：
 > * 被试详细电极位置记录
 > * 原始数据.edf（用于读取channel label）
 > * freesurfer预处理处理好的**MRI-T1**文件夹
-> * **post_CT_acpc**（_acpc指的是两种图像都已经转换到acpc坐标系了）
+> * **post_CT_acpc.nii**（_acpc指的是两种图像都已经转换到acpc坐标系了）
 
 
 
