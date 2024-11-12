@@ -2,6 +2,8 @@
 
 > 注意：参考文章比较丰富的内容就简单写写了
 > @ XiangshuWu 2024/11/12
+> 
+<br/>
 
 **参考文章**：Stolk, A., Griffin, S., Van Der Meij, R., Dewar, C., Saez, I., Lin, J. J., Piantoni, G., Schoffelen, J.-M., Knight, R. T., & Oostenveld, R. (2018). Integrated analysis of anatomical and electrophysiological human intracranial data. Nature Protocols, 13(7), 1699–1723. https://doi.org/10.1038/s41596-018-0009-6
 
@@ -17,7 +19,7 @@
 
 ## 1.如何在拿到原始数据后迅速检查
 
-原始数据清单：
+**原始数据清单**：
 1. 颅内电记录
     * 被试在实验过程中记录的颅内脑电活动 (格式可能为 .edf)
 2. 解剖图像
@@ -25,6 +27,7 @@
     * 植入电极后 **CT** (格式可能为 .nii)
 3. 被试详细电极位置记录
 4. 行为结果记录
+<br/>
 
 
 ### 1.1 颅内电记录检查(Trigger检查)
@@ -51,10 +54,10 @@
 > **建议**把文件夹里面的很多层图像合并到一个nii里面方便后续操作
 
 ①下载好的mricron文件夹里有一个这个软件**dcm2niigui.exe**：
-![alt text](.\figures\image3.png)
+![alt text](https://github.com/xiangshuwu/iEEG_preprocess/tree/main/figures/image3.png)
  
 ②打开长这样，注意选择**output format**为 **[FSL/SPM8(4D NIfTI nii)]**：
-![alt text](.\figures\image4.png)
+![alt text](https://github.com/xiangshuwu/iEEG_preprocess/tree/main/figures/image4.png)
 
 ③把相关文件夹（MRI/CT）拖进去，会自动把每一层扫描像合并成一个.nii图像，存回**原来的文件夹**里
 做完这步一般会生成：
@@ -64,10 +67,10 @@
 
 > 如何辨认哪些是MRI-T1像，哪些是post_CT像?
 * MRI T1长如图最左边这样
-![alt text](.\figures\image1.png)
+![alt text](https://github.com/xiangshuwu/iEEG_preprocess/tree/main/figures/image1.png)
 
 * post_CT长这样
-![alt text](.\figures\image2.png)
+![alt text](https://github.com/xiangshuwu/iEEG_preprocess/tree/main/figures/image2.png)
 
 
 ## 2.预处理：结构像预处理与电极定位
@@ -86,7 +89,10 @@
 > **Output**: 
 > * Subjectx_MR_acpc.nii
 
-% 参考视频： Supplementary Video 2: https://static-content.springer.com/esm/art%3A10.1038%2Fs41596-018-0009-6/MediaObjects/41596_2018_9_MOESM7_ESM.mp4
+<br/>
+
+参考视频： [Supplementary Video 2](https://static-content.springer.com/esm/art%3A10.1038%2Fs41596-018-0009-6/MediaObjects/41596_2018_9_MOESM7_ESM.mp4)
+
     
     mri = ft_read_mri(<path to MRI file>);
     cfg = []; cfg.method = 'interactive'; 
@@ -139,10 +145,10 @@
 
 * **-all**: 执行 recon-all 所有的处理步骤，包括 skull strip、白质分割、皮层表面生成等。-all 参数非常方便，因为它会自动依次执行所有步骤，生成最终结果。
 
-## 2.2 结构像其他预处理(更新中) 
+## 2.2 结构像其他预处理(更新中...) 
 
 
-## 2.3 电极点定位:brainstorm版(更新中) 
+## 2.3 电极点定位:brainstorm版(更新中...) 
 > Protocols文章直接用的是fieldtrip定位，也可以的。区别在于：
 > * fieldtrip: 手动定位每一个contacts
 > * brainstorm: 手动定位的是电极那条直线，确定起点根据contacts间距计算每个contacts位置
