@@ -123,6 +123,10 @@
 
 参考视频： [Supplementary Video 2](https://static-content.springer.com/esm/art%3A10.1038%2Fs41596-018-0009-6/MediaObjects/41596_2018_9_MOESM7_ESM.mp4)
 
+参考定位点:[ Alignment to Anterior and Posterior Commissure (ACPC)](https://sabre.brainlab.ca/docs/processing/stage3.html)
+
+<img src = "./figures/image5.png" style="zoom: 60%;">
+
 ### 2.1 使用freesurfer对MRI T1进行预处理 
 注意：
 * 预处理MRI T1结构像，**一个被试大约十几个小时，建议在服务器上跑！**
