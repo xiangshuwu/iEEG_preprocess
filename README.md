@@ -181,3 +181,12 @@ Protocols文章直接用的是fieldtrip定位，也可以的。区别在于：
 
 
 参考链接: https://blog.csdn.net/valarD/article/details/119419499
+
+## 2.4 批处理导出MNI和基于模板的定位
+### * brainstorm批处理导出MNI
+> exportMNI_WORLD.m #需要更改到你的文件路径
+
+### * 参考连接中的定位脚本
+> generate_electable_win_v3_dai.m
+
+> extract_ROI_mni-ref.m
